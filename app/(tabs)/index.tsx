@@ -1,31 +1,28 @@
-import { StyleSheet } from 'react-native';
+import images from "@/constants/Images";
+import { Dimensions, Image, StatusBar, Text, View } from "react-native";
+import Carousel from "react-native-reanimated-carousel";
 
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+export default function Home() {
+  const { width: PAGE_WIDTH } = Dimensions.get("window");
 
-export default function TabOneScreen() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+    <View className="flex-1 items-center justify-center">
+      <Carousel
+        width={PAGE_WIDTH}
+        height={PAGE_WIDTH}
+        data={images}
+        autoPlay={true}
+        autoPlayInterval={10000}
+        renderItem={({ index, item }) => (
+          <View key={index} className="items-center justify-center flex-1">
+            <Image className="h-full w-full" src={item.imgUrl} />
+            <View className="bg-black w-full bottom-9 opacity-90 h-50">
+              <Text className="text-gray-50">{item.body}</Text>
+            </View>
+          </View>
+        )}
+      />
+      <StatusBar barStyle={"dark-content"} />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
